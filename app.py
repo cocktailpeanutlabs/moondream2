@@ -16,9 +16,9 @@ else:
     device, dtype = "cpu", torch.float32
 
 model_id = "vikhyatk/moondream2"
-tokenizer = AutoTokenizer.from_pretrained(model_id, revision="2024-03-04")
+tokenizer = AutoTokenizer.from_pretrained(model_id, revision="2024-03-06")
 moondream = AutoModelForCausalLM.from_pretrained(
-    model_id, trust_remote_code=True, revision="2024-03-04"
+    model_id, trust_remote_code=True, revision="2024-03-06"
 ).to(device=device, dtype=dtype)
 moondream.eval()
 
