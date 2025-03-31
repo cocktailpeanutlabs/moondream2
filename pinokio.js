@@ -4,20 +4,31 @@ module.exports = {
   title: "moondream2",
   description: "a tiny vision language model that kicks ass and runs anywhere https://github.com/vikhyat/moondream",
   icon: "icon.png",
-  menu: async (kernel) => {
-    let installing = await kernel.running(__dirname, "install.js")
-    let installed = await kernel.exists(__dirname, "env")
-    let running = await kernel.running(__dirname, "start.js")
-    if (installing) {
+  menu: async (kernel, info) => {
+    let installed = info.exists("env")
+    let running = {
+      install: info.running("install.js"),
+      start: info.running("start.js"),
+      update: info.running("update.js"),
+      reset: info.running("reset.js")
+    }
+    if (running.install) {
       return [{
         default: true,
         icon: "fa-solid fa-plug",
         text: "Installing",
         href: "install.js",
       }]
+    } else if (running.update) {
+      return [{
+        default: true,
+        icon: 'fa-solid fa-terminal',
+        text: "Updating",
+        href: "update.js",
+      }]
     } else if (installed) {
-      if (running) {
-        let local = kernel.memory.local[path.resolve(__dirname, "start.js")]
+      if (running.start) {
+        let local = info.local("start.js")
         if (local && local.url) {
           return [{
             default: true,
@@ -37,6 +48,13 @@ module.exports = {
             href: "start.js",
           }]
         }
+      } else if (running.reset) {
+          return [{
+            default: true,
+            icon: 'fa-solid fa-terminal',
+            text: "Resetting",
+            href: "reset.js",
+          }]
       } else {
         return [{
           default: true,
