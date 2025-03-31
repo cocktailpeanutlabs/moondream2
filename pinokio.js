@@ -1,6 +1,6 @@
 const path = require('path')
 module.exports = {
-  version: "1.2",
+  version: "3.0",
   title: "moondream2",
   description: "a tiny vision language model that kicks ass and runs anywhere https://github.com/vikhyat/moondream",
   icon: "icon.png",
