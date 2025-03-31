@@ -1,13 +1,18 @@
-const config = require("./config.js")
-const pre = require("./pre.js")
-module.exports = async (kernel) => {
-  let script = {
+module.exports = {
     run: [{
+      method: "script.start",
+      params: {
+        uri: "torch.js",
+        params: {
+          venv: "env",
+        }
+      }
+    }, {
       method: "shell.run",
       params: {
         venv: "env",
         message: [
-          "pip install -r requirements.txt"
+          "uv pip install -r requirements.txt"
         ],
       }
     }, {
@@ -20,11 +25,6 @@ module.exports = async (kernel) => {
       params: {
         html: "Click the 'start' tab to get started!"
       }
-    }]
-  }
-  let pre_command = pre(config, kernel)
-  if (pre_command) {
-    script.run[0].params.message = [pre_command].concat(script.run[0].params.message)
-  }
-  return script
+    }
+  ]
 }
